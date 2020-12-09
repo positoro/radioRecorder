@@ -23,20 +23,18 @@ for service in services:
     print('can not get data')
     break
 
-
-  result = pd.json_normalize(request_get.json(), ['list', service])
-  print(result)
-#  result = pd.json_normalize(request_get.json(), ['r1', service])
+  getted_json_data = request_get.json(encoding='utf-8')
+  result = pd.json_normalize(getted_json_data['list'][service])
   all_results = pd.concat([all_results, result])
 
 all_results = all_results[~all_results['title'].str.contains('放送休止')]
+all_results = all_results.reset_index(drop=True)
 
+print(all_results['service.name'])
 print(all_results)
-print(all_results['title'].unique())
 print(all_results.info())
+print(all_results.shape)
+
+all_results.to_csv('./results.csv', index=None)
+
 #ffmpeg -i https://nhkradiobkr1-i.akamaihd.net/hls/live/512291/1-r1/1-r1-01.m3u8 -t 900 -movflags faststart -c copy -bsf:a aac_adtstoasc r.m4a
-
-#https://api.nhk.or.jp/v2/pg/list/{area}/{service}/{date}.json?key={apikey}
-
-#GET https://api.nhk.or.jp/v2/pg/list/130/g1/2020-12-09.json?key=bqTooackky7Av8SCwUr6vjDatfm8qWRX
-
