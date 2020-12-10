@@ -47,11 +47,4 @@ all_results['start_time'] = pd.to_datetime(all_results['start_time'], format='%Y
 all_results['end_time'] = pd.to_datetime(all_results['end_time'], format='%Y/%m/%d %H:%M')
 all_results['airtime'] = all_results['end_time'] - all_results['start_time']
 
-
-print(all_results)
-print(all_results.info())
-print(all_results.shape)
-
-all_results.to_csv('./results.csv', index=None)
-
-#ffmpeg -i https://nhkradiobkr1-i.akamaihd.net/hls/live/512291/1-r1/1-r1-01.m3u8 -t 900 -movflags faststart -c copy -bsf:a aac_adtstoasc r.m4a
+all_results.to_csv('./data/results.csv', index=None)
