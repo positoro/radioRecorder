@@ -47,4 +47,4 @@ all_results['start_time'] = pd.to_datetime(all_results['start_time'], format='%Y
 all_results['end_time'] = pd.to_datetime(all_results['end_time'], format='%Y/%m/%d %H:%M')
 all_results['airtime'] = all_results['end_time'] - all_results['start_time']
 
-all_results.to_csv('./data/results.csv', index=None)
+all_results.to_csv('./data/table.csv', index=None)
