@@ -35,32 +35,6 @@ all_results['start_time'] = pd.to_datetime(all_results['start_time'], format='%Y
 all_results['end_time'] = pd.to_datetime(all_results['end_time'], format='%Y/%m/%d %H:%M')
 all_results['air_time'] = all_results['end_time'] - all_results['start_time']
 
-##   Column                 Non-Null Count  Dtype                                
-#---  ------                 --------------  -----                                
-# 0   id                     197 non-null    object                               
-# 1   event_id               197 non-null    object                               
-# 2   start_time             197 non-null    datetime64[ns, pytz.FixedOffset(540)]
-# 3   end_time               197 non-null    datetime64[ns, pytz.FixedOffset(540)]
-# 4   title                  197 non-null    object                               
-# 5   subtitle               197 non-null    object                               
-# 6   content                197 non-null    object                               
-# 7   act                    197 non-null    object                               
-# 8   genres                 197 non-null    object                               
-# 9   area.id                197 non-null    object                               
-# 10  area.name              197 non-null    object                               
-# 11  service.id             197 non-null    object                               
-# 12  service.name           197 non-null    object                               
-# 13  service.logo_s.url     197 non-null    object                               
-# 14  service.logo_s.width   197 non-null    object                               
-# 15  service.logo_s.height  197 non-null    object                               
-# 16  service.logo_m.url     197 non-null    object                               
-# 17  service.logo_m.width   197 non-null    object                               
-# 18  service.logo_m.height  197 non-null    object                               
-# 19  service.logo_l.url     197 non-null    object                               
-# 20  service.logo_l.width   197 non-null    object                               
-# 21  service.logo_l.height  197 non-null    object                               
-# 22  airtime                197 non-null    timedelta64[ns]         
-
 select_columns = [
   'start_time',
   'end_time',
@@ -70,5 +44,6 @@ select_columns = [
   'service.name',
   'service.logo_l.url',
 ]
+
 selected_results = all_results[select_columns]
 selected_results.to_csv('./data/table.csv', index=None)
