@@ -9,14 +9,23 @@ date = datetime.date.today()
 
 all_results = pd.DataFrame()
 
+
+import requests
+res = requests.head('https://www.kantei.go.jp')
+
 for service in localModule.SERVICES:
   url = localModule.URL_OF_API + '/{0}/{1}/{2}.json?key={3}'.format(localModule.AREA, service, date, localModule.KEY_OF_API)
   request_get = requests.get(url)
 
+  #print(html_timestamp)
+  #print(res.headers['Last-Modified'])
+  #html_timestamp = datetime.datetime.strptime(res.headers['Last-Modified'], "%a, %d %b %Y %H:%M:%S GMT")
+
+
   if request_get.status_code != 200:
     print('can not get data')
     break
-
+ 
   getted_json_data = request_get.json()
   result = pd.json_normalize(getted_json_data['list'][service])
 
@@ -24,7 +33,7 @@ for service in localModule.SERVICES:
 
 all_results = all_results[~all_results['title'].str.contains('放送休止')]
 all_results = all_results.reset_index(drop=True)
-
+#all_results.drop_duplicates(subset='title', inplace=True)
 
 all_results['title'] = all_results['title'].apply(lambda x: '_'.join(x.split()))
 all_results['title'] = all_results['title'].apply(lambda x: x.replace("\u25BD", '_'))
