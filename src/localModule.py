@@ -2,10 +2,17 @@ import pandas as pd
 import datetime
 #----
 
-pd.set_option('display.unicode.east_asian_width', True)
-pd.set_option('display.max_columns', 100)
-pd.set_option('display.max_rows', 500)
-pd.set_option("display.width", 2000)
+#pd.set_option('display.unicode.east_asian_width', True)
+#pd.set_option('display.max_columns', 100)
+#pd.set_option('display.max_rows', 500)
+#pd.set_option("display.width", 2000)
+
+#----
+
+#FOLDER_OF_RECORD = './record'
+
+MARGIN_SECOND = 60
+FOLDER_OF_RECORD = '~/Desktop'
 
 #----
 
