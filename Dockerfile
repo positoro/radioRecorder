@@ -17,6 +17,7 @@ RUN apt install -y vim
 RUN apt install -y less
 RUN apt install -y ffmpeg
 RUN apt install -y at
+RUN apt install -y cron
 RUN apt clean
 
 RUN pip3 install pandas
@@ -24,4 +25,4 @@ RUN pip3 install requests
 
 RUN update-locale LANG=ja_JP.UTF-8
 
-RUN service atd start
+ENTRYPOINT service atd start;service cron start;/bin/bash
