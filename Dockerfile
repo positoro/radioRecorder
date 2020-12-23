@@ -25,4 +25,8 @@ RUN pip3 install requests
 
 RUN update-locale LANG=ja_JP.UTF-8
 
-ENTRYPOINT service atd start;service cron start;/bin/bash
+ENTRYPOINT service atd start ;\
+           service cron start ;\
+           (crontab -l; echo "30 7 * * * 'python3 /root/tabler.py'")    | crontab - ;\
+           (crontab -l; echo "45 7 * * * 'python3 /root/scheduler.py'") | crontab - ;\
+           /bin/bash
