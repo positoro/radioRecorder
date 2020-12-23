@@ -23,7 +23,7 @@ def atting_program(row):
     (row.start_time - datetime.timedelta(seconds=localModule.MARGIN_SECOND)).strftime('%Y%m%d%H%M.%S'),
   )
 
-  print(command_line)
+  res = subprocess.check_output(command_line, shell=True)
 
 #----
 
