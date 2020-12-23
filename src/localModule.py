@@ -9,10 +9,8 @@ import datetime
 
 #----
 
-#FOLDER_OF_RECORD = './record'
-
+FOLDER_OF_RECORD = '/mnt'
 MARGIN_SECOND = 60
-FOLDER_OF_RECORD = '~/Desktop'
 
 #----
 
