@@ -11,7 +11,7 @@ import datetime
 
 TABLE_FILE = '/root/table.csv'
 FOLDER_OF_RECORD = '/mnt'
-MARGIN_SECOND = 60
+MARGIN_SECOND = 30
 
 #----
 
@@ -34,7 +34,7 @@ TABLE_DAYS = 2
 
 #----
 
-UPDATE_TIME_LINE = '08:00:00'
+UPDATE_TIME_LINE = '04:00:00'
 JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
 
 #----
