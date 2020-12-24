@@ -24,7 +24,6 @@ RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
 RUN pip install pandas
 RUN pip install requests
-RUN pip install base64
 
 ENTRYPOINT service atd start ;\
            service cron start ;\
