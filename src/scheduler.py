@@ -12,12 +12,12 @@ def atting_program(row):
 
   ffmpeg_command_line = 'ffmpeg \
     -loglevel error \
-    -movflags faststart \
-    -vn \
-    -acodec copy \
-    -bsf:a aac_adtstoasc \
     -fflags +discardcorrupt \
     -i {0} \
+    -acodec copy \
+    -movflags faststart \
+    -vn \
+    -bsf:a aac_adtstoasc \
     -t {1} \
     -metadata date="{2}" \
     -metadata genre="{3}" \
@@ -41,7 +41,8 @@ def atting_program(row):
     (row.start_time - datetime.timedelta(seconds=localModule.MARGIN_SECOND)).strftime('%Y%m%d%H%M.%S'),
   )
 
-  res = subprocess.check_output(command_line, shell=True)
+#  res = subprocess.check_output(command_line, shell=True)
+  print(command_line)
 
 #----
 
