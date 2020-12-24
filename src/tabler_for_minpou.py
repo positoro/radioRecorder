@@ -14,27 +14,7 @@ all_results = pd.DataFrame()
 
 #----
 
-def get_station_url():
-  return 0
-
-#
-# get stream-url
-#
-
-#if [ -f ${channel}.xml ]; then
-#  rm -f ${channel}.xml
-#fi
-#
-#curl -s "http://radiko.jp/v2/station/stream_smh_multi/${channel}.xml" -o ${channel}.xml
-#stream_url=`xmllint --xpath "/urls/url[@areafree='0'][1]/playlist_create_url/text()" ${channel}.xml`
-#
-#rm -f ${channel}.xml
-#
-########
-
-
 def get_table(): 
-
 
   request_get = requests.get(localModuleForMinpou.TABLE_URL)
   request_get.encoding = 'utf-8'

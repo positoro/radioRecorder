@@ -5,8 +5,8 @@ import base64
 
 #----
 
-TABLE_FILE = '/root/table_for_minpou.csv'
-#TABLE_FILE = './table_for_minpou.csv'
+#TABLE_FILE = '/root/table_for_minpou.csv'
+TABLE_FILE = './table_for_minpou.csv'
 FOLDER_OF_RECORD = '/mnt'
 MARGIN_SECOND = 30
 
@@ -20,7 +20,7 @@ RADIKO_AUTH1_FMS_URL = 'https://radiko.jp/v2/api/auth1'
 RADIKO_AUTH2_FMS_URL = 'https://radiko.jp/v2/api/auth2'
 
 TABLE_URL = 'http://radiko.jp/v3/program/today/JP13.xml'
-
+STATION_URL = 'http://radiko.jp/v2/station/stream_smh_multi'
 
 #----
 
