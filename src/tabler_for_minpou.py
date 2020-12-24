@@ -3,6 +3,7 @@ import pandas as pd
 import xmltodict
 import requests
 import datetime
+import base64
 
 import localModuleForMinpou
 
@@ -34,6 +35,7 @@ def get_station_url():
 
 
 #----
+
 def get_table(): 
 
   table = pd.DataFrame()
