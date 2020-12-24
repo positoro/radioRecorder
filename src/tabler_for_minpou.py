@@ -1,16 +1,15 @@
 import pandas as pd
-#import xml.etree.ElementTree as ET
-import xmltodict
+
+import xml.etree.ElementTree as ET
+
 import requests
 import datetime
 import base64
-
 import localModuleForMinpou
 
 #----
 
 date = datetime.date.today()
-
 all_results = pd.DataFrame()
 
 #----
@@ -34,79 +33,80 @@ def get_station_url():
 ########
 
 
-#----
-
 def get_table(): 
 
-  table = pd.DataFrame()
 
   request_get = requests.get(localModuleForMinpou.TABLE_URL)
-#  getted_xml_data = ET.fromstring(request_get.text)
-  getted_data = xmltodict.parse(request_get.text)
-  print(getted_data)
+  request_get.encoding = 'utf-8'
+  getted_xml = ET.fromstring(request_get.text)
 
-  TBS_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="TBS"'], sep='_')
-  QRR_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="QRR"'], sep='_')
-  LFR_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="LFR"'], sep='_')
-  RN1_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="RN1"'], sep='_')
-  RN2_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="RN2"'], sep='_')
-  INT_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="INT"'], sep='_')
-  FMT_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="FMT"'], sep='_')
-  FMJ_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="FMJ"'], sep='_')
-  JORF_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="JORF"'], sep='_')
-  BAYFM78_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="BAYFM78"'], sep='_')
-  NACK5_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="NACK5"'], sep='_')
-  YFM_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="YFM"'], sep='_')
-  HOUSOU_DAIGAKU_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="HOUSOU-DAIGAKU"'], sep='_')
+  list_of_table = []
 
-  day_result = pd.concat([
-    TBS_result,
-    QRR_result,
-    LFR_result,
-    RN1_result,
-    RN2_result,
-    INT_result,
-    FMT_result,
-    FMJ_result,
-    JORF_result,
-    BAYFM78_result,
-    NACK5_result,
-    YFM_result,
-    HOUSOU_DAIGAKU_result,
-  ])
+  stations = getted_xml.findall('./stations/station')
 
-  return day_result
+
+  for station in stations:
+
+    station_id = station.attrib['id'] 
+    station_name = station.find('name').text
+    progs = station.findall('./progs/prog')
+
+    for prog in progs:
+      
+      prog_start_time = prog.attrib['ft'] 
+      prog_end_time = prog.attrib['to'] 
+
+      prog_title = prog.find('title').text
+      prog_image_url = prog.find('img').text
+
+      list_of_table.append([station_id, station_name, prog_start_time, prog_end_time, prog_title, prog_image_url])
+
+
+  table = pd.DataFrame(list_of_table)
+  table.columns = [
+   'station_id',
+   'station_name',
+   'start_time',
+   'end_time',
+   'title',
+   'image_url',
+  ]
+  
+  return table
 
 #--------------------------------------------------------------------
 
-auth_token = localModuleForMinpou.get_auth_token()
-
 table = get_table()
-
-print(table)
 
 table['title'] = table['title'].apply(lambda x: '_'.join(x.split()))
 table['title'] = table['title'].apply(lambda x: x.replace("\u25BD", '_'))
+
+table = table[
+  (table['station_id'] != 'JOAK')  &
+  (table['station_id'] != 'JOAK-FM')
+]
+
+table = table[table['title'] != '番組休止中']
 
 table = table.reset_index(drop=True)
 
 #----
 
-#all_results['start_time'] = pd.to_datetime(all_results['start_time'])
-#all_results['end_time'] = pd.to_datetime(all_results['end_time'])
-#all_results['air_time'] = all_results['end_time'] - all_results['start_time']
+table['start_time'] = pd.to_datetime(table['start_time'])
+table['end_time'] = pd.to_datetime(table['end_time'])
+table['air_time'] = table['end_time'] - table['start_time']
 
 #----
 
-#select_columns = [
-#  'start_time',
-#  'end_time',
-#  'air_time',
-#  'title',
-#  'service_id',
-#  'service_name',
-#  'service_logo_l_url',
-#]
+select_columns = [
+  'start_time',
+  'end_time',
+  'air_time',
+  'title',
+  'station_id',
+  'station_name',
+  'image_url',
+]
 
-#selected_results = all_results[select_columns]
-#selected_results.to_csv(localModuleForMinpou.TABLE_FILE, index=None)
+selected_results = table[select_columns]
+selected_results.to_csv(localModuleForMinpou.TABLE_FILE, index=None)
