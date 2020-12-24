@@ -6,6 +6,7 @@ import base64
 #----
 
 TABLE_FILE = '/root/table_for_minpou.csv'
+#TABLE_FILE = './table_for_minpou.csv'
 FOLDER_OF_RECORD = '/mnt'
 MARGIN_SECOND = 30
 
