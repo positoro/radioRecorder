@@ -17,6 +17,7 @@ def get_station_url():
   return 0
 
 def get_auth_key():
+
   headers_for_get_auth1_fms = {
      'pragma' : 'no-cache',
      'X-Radiko-App' : 'pc_html5',
@@ -25,18 +26,56 @@ def get_auth_key():
      'X-Radiko-Device' : 'pc'
   }
 
-  response = requests.post(localModuleForMinpou.RADIKO_AUTH1_FMS_URL, headers=headers_for_get_auth1_fms)
-  print(response.text)
+  response = requests.get(localModuleForMinpou.RADIKO_AUTH1_FMS_URL, headers=headers_for_get_auth1_fms)
+  print(response.headers)
+
+  auth_token = response.headers['X-Radiko-AuthToken']
+  key_length = response.headers['X-Radiko-KeyLength']
+  key_offset = response.headers['X-Radiko-KeyOffset']
+
+  partial_key=`echo "${RADIKO_AUTHKEY_VALUE}" | dd bs=1 "skip=${offset}" "count=${length}" 2> /dev/null | base64`
 
 #----
 
-def get_table(adding_day):
+  headers_for_get_auth2_fms = {
+     'pragma' : 'no-cache',
+     'X-Radiko-AuthToken' : auth_token,
+     'X-Radiko-PartialKey' : partial_key,
+     'X-Radiko-User' : 'test-stream',
+     'X-Radiko-Device' : 'pc'
+  }
+
+  response = requests.get(localModuleForMinpou.RADIKO_AUTH2_FMS_URL, headers=headers_for_get_auth2_fms)
+
+#######
+#echo "authentication success"
+areaid=`perl -ne 'print $1 if(/^([^,]+),/i)' auth2_fms_${pid}`
+#echo "areaid: $areaid"
+
+rm -f auth2_fms_${pid}
+
+#
+# get stream-url
+#
+
+if [ -f ${channel}.xml ]; then
+  rm -f ${channel}.xml
+fi
+
+curl -s "http://radiko.jp/v2/station/stream_smh_multi/${channel}.xml" -o ${channel}.xml
+stream_url=`xmllint --xpath "/urls/url[@areafree='0'][1]/playlist_create_url/text()" ${channel}.xml`
+
+rm -f ${channel}.xml
+
+#######
+
+
+#----
+def get_table(adding_day): 
 
   get_day = date + datetime.timedelta(days=adding_day)
-
   day_result = pd.DataFrame()
-  url = localModule.URL_OF_API + '/{0}/radio/{1}.json?key={2}'.format(localModule.AREA, get_day, localModule.KEY_OF_API)
-  request_get = requests.get(url)
+  url = localModule.URL_OF_API + '/{0}/radio/{1}.json?key={2}'.format(localModule.AREA, get_day, localModule.KEY_OF_API) request_get = requests.get(url) 
 
   if request_get.status_code != 200:
     print('can not get data')
