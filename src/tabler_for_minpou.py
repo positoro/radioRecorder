@@ -1,5 +1,6 @@
 import pandas as pd
-import json
+#import xml.etree.ElementTree as ET
+import xmltodict
 import requests
 import datetime
 
@@ -16,98 +17,76 @@ all_results = pd.DataFrame()
 def get_station_url():
   return 0
 
-def get_auth_key():
-
-  headers_for_get_auth1_fms = {
-     'pragma' : 'no-cache',
-     'X-Radiko-App' : 'pc_html5',
-     'X-Radiko-App-Version' : '0.0.1',
-     'X-Radiko-User' : 'test-stream',
-     'X-Radiko-Device' : 'pc'
-  }
-
-  response = requests.get(localModuleForMinpou.RADIKO_AUTH1_FMS_URL, headers=headers_for_get_auth1_fms)
-  print(response.headers)
-
-  auth_token = response.headers['X-Radiko-AuthToken']
-  key_length = response.headers['X-Radiko-KeyLength']
-  key_offset = response.headers['X-Radiko-KeyOffset']
-
-  partial_key=`echo "${RADIKO_AUTHKEY_VALUE}" | dd bs=1 "skip=${offset}" "count=${length}" 2> /dev/null | base64`
-
-#----
-
-  headers_for_get_auth2_fms = {
-     'pragma' : 'no-cache',
-     'X-Radiko-AuthToken' : auth_token,
-     'X-Radiko-PartialKey' : partial_key,
-     'X-Radiko-User' : 'test-stream',
-     'X-Radiko-Device' : 'pc'
-  }
-
-  response = requests.get(localModuleForMinpou.RADIKO_AUTH2_FMS_URL, headers=headers_for_get_auth2_fms)
-
-#######
-#echo "authentication success"
-areaid=`perl -ne 'print $1 if(/^([^,]+),/i)' auth2_fms_${pid}`
-#echo "areaid: $areaid"
-
-rm -f auth2_fms_${pid}
-
 #
 # get stream-url
 #
 
-if [ -f ${channel}.xml ]; then
-  rm -f ${channel}.xml
-fi
-
-curl -s "http://radiko.jp/v2/station/stream_smh_multi/${channel}.xml" -o ${channel}.xml
-stream_url=`xmllint --xpath "/urls/url[@areafree='0'][1]/playlist_create_url/text()" ${channel}.xml`
-
-rm -f ${channel}.xml
-
-#######
+#if [ -f ${channel}.xml ]; then
+#  rm -f ${channel}.xml
+#fi
+#
+#curl -s "http://radiko.jp/v2/station/stream_smh_multi/${channel}.xml" -o ${channel}.xml
+#stream_url=`xmllint --xpath "/urls/url[@areafree='0'][1]/playlist_create_url/text()" ${channel}.xml`
+#
+#rm -f ${channel}.xml
+#
+########
 
 
 #----
-def get_table(adding_day): 
+def get_table(): 
 
-  get_day = date + datetime.timedelta(days=adding_day)
-  day_result = pd.DataFrame()
-  url = localModule.URL_OF_API + '/{0}/radio/{1}.json?key={2}'.format(localModule.AREA, get_day, localModule.KEY_OF_API) request_get = requests.get(url) 
+  table = pd.DataFrame()
 
-  if request_get.status_code != 200:
-    print('can not get data')
+  request_get = requests.get(localModuleForMinpou.TABLE_URL)
+#  getted_xml_data = ET.fromstring(request_get.text)
+  getted_data = xmltodict.parse(request_get.text)
+  print(getted_data)
 
-  getted_json_data = request_get.json()
+  TBS_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="TBS"'], sep='_')
+  QRR_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="QRR"'], sep='_')
+  LFR_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="LFR"'], sep='_')
+  RN1_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="RN1"'], sep='_')
+  RN2_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="RN2"'], sep='_')
+  INT_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="INT"'], sep='_')
+  FMT_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="FMT"'], sep='_')
+  FMJ_result = pd.json_normalize(getted_xml_data['radiko']['stations']['station id="FMJ"'], sep='_')
+  JORF_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="JORF"'], sep='_')
+  BAYFM78_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="BAYFM78"'], sep='_')
+  NACK5_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="NACK5"'], sep='_')
+  YFM_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="YFM"'], sep='_')
+  HOUSOU_DAIGAKU_result = pd.json_normalize(getted_json_data['radiko']['stations']['station id="HOUSOU-DAIGAKU"'], sep='_')
 
-  r1_result = pd.json_normalize(getted_json_data['list']['r1'], sep='_')
-  r2_result = pd.json_normalize(getted_json_data['list']['r2'], sep='_')
-  r3_result = pd.json_normalize(getted_json_data['list']['r3'], sep='_')
-
-  day_result = pd.concat([r1_result, r2_result, r3_result])
-
-##
-  day_result.drop_duplicates(subset='title', inplace=True)
-##
+  day_result = pd.concat([
+    TBS_result,
+    QRR_result,
+    LFR_result,
+    RN1_result,
+    RN2_result,
+    INT_result,
+    FMT_result,
+    FMJ_result,
+    JORF_result,
+    BAYFM78_result,
+    NACK5_result,
+    YFM_result,
+    HOUSOU_DAIGAKU_result,
+  ])
 
   return day_result
 
 #--------------------------------------------------------------------
 
-get_auth_key()
- 
-#for adding_day in range(localModule.TABLE_DAYS):
-#  all_results = pd.concat([all_results, get_table(adding_day)])
+auth_token = localModuleForMinpou.get_auth_token()
 
-#----
+table = get_table()
 
+print(table)
 
-#all_results['title'] = all_results['title'].apply(lambda x: '_'.join(x.split()))
-#all_results['title'] = all_results['title'].apply(lambda x: x.replace("\u25BD", '_'))
+table['title'] = table['title'].apply(lambda x: '_'.join(x.split()))
+table['title'] = table['title'].apply(lambda x: x.replace("\u25BD", '_'))
 
-#all_results = all_results.reset_index(drop=True)
+table = table.reset_index(drop=True)
 
 #----
 
