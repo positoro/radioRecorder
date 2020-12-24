@@ -9,16 +9,33 @@ import localModule
 #----
 
 def atting_program(row):
-  ffmpeg_command_line = 'ffmpeg -i {0} -t {1} -metadata date="{2}" -metadata genre="{3}" -metadata artist="{4}" -metadata title="{5}" -movflags faststart -c copy -bsf:a aac_adtstoasc {6}/{7}.m4a'.format(
-    localModule.DICTIONARY_OF_STATION_URL[row.service_id],
-    int((row.air_time + datetime.timedelta(seconds=localModule.MARGIN_SECOND*2)).total_seconds()),
-    row.start_time.strftime('%Y'),
-    'Radio Program',
-    row.service_name,
-    row.title,
-    localModule.FOLDER_OF_RECORD,
-    row.title+'-'+row.start_time.strftime('%Y%m%d%H%M'),
+
+  ffmpeg_command_line = 'ffmpeg \
+    -loglevel error \
+    -movflags faststart \
+    -vn \
+    -acodec copy \
+    -bsf:a aac_adtstoasc \
+    -fflags +discardcorrupt \
+    -i {0} \
+    -t {1} \
+    -metadata date="{2}" \
+    -metadata genre="{3}" \
+    -metadata artist="{4}" \
+    -metadata title="{5}" \
+    {6}/{7}.m4a'.format(
+
+      localModule.DICTIONARY_OF_STATION_URL[row.service_id],
+      int((row.air_time + datetime.timedelta(seconds=localModule.MARGIN_SECOND*2)).total_seconds()),
+      row.start_time.strftime('%Y'),
+      'Radio Program',
+      row.service_name,
+      row.title,
+      localModule.FOLDER_OF_RECORD,
+      row.title+'-'+row.start_time.strftime('%Y%m%d%H%M'),
+
   )
+
   command_line = "echo '{0}' | at -t {1}".format(
     ffmpeg_command_line,
     (row.start_time - datetime.timedelta(seconds=localModule.MARGIN_SECOND)).strftime('%Y%m%d%H%M.%S'),
