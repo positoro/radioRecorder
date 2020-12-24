@@ -11,7 +11,7 @@ import localModule
 def atting_program(row):
   ffmpeg_command_line = 'ffmpeg -i {0} -t {1} -metadata date="{2}" -metadata genre="{3}" -metadata artist="{4}" -metadata title="{5}" -movflags faststart -c copy -bsf:a aac_adtstoasc {6}/{7}.m4a'.format(
     localModule.DICTIONARY_OF_STATION_URL[row.service_id],
-    int((row.air_time + datetime.timedelta(seconds=localModule.MARGIN_SECOND)).total_seconds()),
+    int((row.air_time + datetime.timedelta(seconds=localModule.MARGIN_SECOND*2)).total_seconds()),
     row.start_time.strftime('%Y'),
     'Radio Program',
     row.service_name,
