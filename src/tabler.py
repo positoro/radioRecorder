@@ -71,4 +71,4 @@ select_columns = [
 ]
 
 selected_results = all_results[select_columns]
-selected_results.to_csv('./data/table.csv', index=None)
+selected_results.to_csv(localModule.TABLE_FILE, index=None)

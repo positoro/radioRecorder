@@ -28,7 +28,7 @@ def atting_program(row):
 
 #----
 
-table = pd.read_csv('./data/table.csv')
+table = pd.read_csv(localModule.TABLE_FILE)
 table['start_time'] = pd.to_datetime(table['start_time'])
 table['end_time'] = pd.to_datetime(table['end_time'])
 table['start_time'] = pd.to_datetime(table['start_time'])
