@@ -12,7 +12,7 @@ import datetime
 TABLE_FILE = '/root/table.csv'
 #TABLE_FILE = './table.csv'
 FOLDER_OF_RECORD = '/mnt'
-MARGIN_SECOND = 30
+MARGIN_SECOND = 60
 
 #----
 
