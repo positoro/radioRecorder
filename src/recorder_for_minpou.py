@@ -73,7 +73,7 @@ ffmpeg_command_line = 'ffmpeg \
     -metadata artist="{4}" \
     -metadata title="{5}" \
     -headers "X-Radiko-Authtoken: {6}" \
-    {7}'.format(
+    "{7}"'.format(
 
       station_url,
       duration_second,
