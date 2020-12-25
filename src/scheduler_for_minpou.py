@@ -28,8 +28,8 @@ def atting_program(row):
     at_launch_time.strftime('%Y%m%d%H%M'),
   )
 
-#  res = subprocess.check_output(command_line, shell=True)
-  print(command_line)
+  res = subprocess.check_output(command_line, shell=True)
+#  print(command_line)
 
 #----
 
