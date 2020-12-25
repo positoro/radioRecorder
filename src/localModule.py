@@ -30,11 +30,9 @@ DICTIONARY_OF_STATION_URL = {
 #----
 
 AREA = '130'
-TABLE_DAYS = 2
 
 #----
 
-UPDATE_TIME_LINE = '04:00:00'
 JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
 
 #----
