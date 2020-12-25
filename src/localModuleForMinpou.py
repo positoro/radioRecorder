@@ -16,7 +16,7 @@ DEBUG = True
 if DEBUG:
   TABLE_FILE = './table_for_minpou.csv'
   FOLDER_OF_RECORD = '~/Desktop'
-  RECORDER_FOR_MINPOU = '/Users/tomo/Desktop/sendenhorst/coding/radioRecorder/src/recorder_for_minpou.py'
+  RECORDER_FOR_MINPOU = '~/Desktop/recorder_for_minpou.py'
 else:
   TABLE_FILE = '/root/table_for_minpou.csv'
   FOLDER_OF_RECORD = '/mnt'
