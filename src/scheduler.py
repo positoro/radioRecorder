@@ -1,6 +1,5 @@
 import pandas as pd
 import json
-import requests
 import datetime
 import subprocess
 

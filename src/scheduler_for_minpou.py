@@ -1,5 +1,4 @@
 import pandas as pd
-import requests
 import datetime
 import subprocess
 
@@ -9,29 +8,16 @@ import localModuleForMinpou
 
 #----
 
-def get_station_url(station_id):
-
-  request_get = requests.get(localModuleForMinpou.STATION_URL+'/'+station_id+'.xml')
-  request_get.encoding = 'utf-8'
-  getted_xml = ET.fromstring(request_get.text)
-
-  station_url = getted_xml.findall('./url')[1].find('playlist_create_url').text
-  
-  return station_url
-
 def atting_program(row):
 
-  station_url = get_station_url(row.station_id)
-
-
-  recorder_for_minpou_command_line = 'python recorder_for_minpou.py {0} {1} {2} {3} "{4}" {5} {6}'.format(
-    row.start_time,
-    station_url,
+  recorder_for_minpou_command_line = 'python '+localModuleForMinpou.RECORDER_FOR_MINPOU+' "{0}" "{1}" "{2}" "{3}" "{4}" "{5}" "{6}"'.format(
+    row.station_id,
     int((row.air_time + datetime.timedelta(seconds=localModuleForMinpou.MARGIN_SECOND*2)).total_seconds()),
     row.start_time.strftime('%Y'),
     row.station_name,
     row.title,
     row.image_url,
+    row.start_time
   )
 
   at_launch_time = row.start_time - datetime.timedelta(seconds=localModuleForMinpou.MARGIN_SECOND)
