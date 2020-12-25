@@ -70,5 +70,6 @@ select_columns = [
   'service_logo_l_url',
 ]
 
+selected_results = all_results[all_results['service_id']=='r2']
 selected_results = all_results[select_columns]
 selected_results.to_csv(localModule.TABLE_FILE, index=None)
