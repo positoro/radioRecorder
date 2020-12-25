@@ -18,12 +18,10 @@ if DEBUG:
   TABLE_FILE = '~/Desktop/table_for_minpou.csv'
   FOLDER_OF_RECORD = '~/Desktop'
   RECORDER_FOR_MINPOU = '~/Desktop/recorder_for_minpou.py'
-  FOLDER_OF_TEMP = '~/Desktop'
 else:
   TABLE_FILE = '/root/table_for_minpou.csv'
   FOLDER_OF_RECORD = '/mnt'
   RECORDER_FOR_MINPOU = '/root/recorder_for_minpou.py'
-  FOLDER_OF_TEMP = '/root'
 
 
 MARGIN_SECOND = 30

@@ -30,8 +30,7 @@ def download_img(url, file_name):
 
 def tagging_cover_art(image_url, file_name):
 
-  tmp_folder = localModuleForMinpou.FOLDER_OF_TEMP
-  tmp_file = tmp_folder + file_name + '.tmp'
+  tmp_file = file_name + '.tmp'
 
   download_img(image_url, tmp_file)
   
