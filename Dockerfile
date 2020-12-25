@@ -18,6 +18,7 @@ RUN apt-get install -y less
 RUN apt-get install -y ffmpeg
 RUN apt-get install -y at
 RUN apt-get install -y cron
+RUN apt-get install -y atomicparsley
 RUN apt-get clean
 
 RUN pip install --upgrade pip
