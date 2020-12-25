@@ -61,12 +61,14 @@ table = get_table()
 table['title'] = table['title'].apply(lambda x: '_'.join(x.split()))
 table['title'] = table['title'].apply(lambda x: x.replace("\u25BD", '_'))
 
-table = table[
-  (table['station_id'] != 'JOAK')  &
-  (table['station_id'] != 'JOAK-FM')
-]
+#table = table[
+#  (table['station_id'] != 'JOAK')  &
+#  (table['station_id'] != 'JOAK-FM')
+#]
 
 table = table[table['title'] != '番組休止中']
+
+table = table[~table['title'].duplicated()]
 
 table = table.reset_index(drop=True)
 
