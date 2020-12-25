@@ -1,7 +1,8 @@
 import sys
 import localModuleForMinpou
 import datetime
-import urllib.request
+import requests
+import subprocess
 import re
 
 station_id      = sys.argv[1]
@@ -33,10 +34,9 @@ def get_station_url(station_id, auth_token):
     "X-Radiko-AuthToken": auth_token,
   }
 
-  request = urllib.request.Request(url_for_station_get, None, headers)
-  response = urllib.request.urlopen(request)
-  body = response.read().decode()
-  lines = re.findall('^https?://.+m3u8$', body, flags=(re.MULTILINE))
+  request_get = requests.get(url_for_station_get, headers=headers)
+  request_get.encoding = 'utf-8'
+  lines = re.findall('^https?://.+m3u8$', request_get.text, flags=(re.MULTILINE))
 
   return lines[0]
 
@@ -70,5 +70,4 @@ ffmpeg_command_line = 'ffmpeg \
       data_file_name,
   )
 command_line = "{0}".format(ffmpeg_command_line)
-#  res = subprocess.check_output(command_line, shell=True)
-print(command_line)
+res = subprocess.check_output(command_line, shell=True)
