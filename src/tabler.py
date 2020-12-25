@@ -7,18 +7,14 @@ import localModule
 
 #----
 
-date = datetime.date.today()
-
-all_results = pd.DataFrame()
 
 #----
 
-def get_table(adding_day):
+def get_table():
 
-  get_day = date + datetime.timedelta(days=adding_day)
-
+  date = datetime.date.today()
   day_result = pd.DataFrame()
-  url = localModule.URL_OF_API + '/{0}/radio/{1}.json?key={2}'.format(localModule.AREA, get_day, localModule.KEY_OF_API)
+  url = localModule.URL_OF_API + '/{0}/radio/{1}.json?key={2}'.format(localModule.AREA, date, localModule.KEY_OF_API)
   request_get = requests.get(url)
 
   if request_get.status_code != 200:
@@ -40,23 +36,22 @@ def get_table(adding_day):
 
 #----
  
-for adding_day in range(localModule.TABLE_DAYS):
-  all_results = pd.concat([all_results, get_table(adding_day)])
+table = get_table()
 
 #----
 
-all_results = all_results[~all_results['title'].str.contains('放送休止')]
+table = table[~table['title'].str.contains('放送休止')]
 
-all_results['title'] = all_results['title'].apply(lambda x: '_'.join(x.split()))
-all_results['title'] = all_results['title'].apply(lambda x: x.replace("\u25BD", '_'))
+table['title'] = table['title'].apply(lambda x: '_'.join(x.split()))
+table['title'] = table['title'].apply(lambda x: x.replace("\u25BD", '_'))
 
-all_results = all_results.reset_index(drop=True)
+table = table.reset_index(drop=True)
 
 #----
 
-all_results['start_time'] = pd.to_datetime(all_results['start_time'])
-all_results['end_time'] = pd.to_datetime(all_results['end_time'])
-all_results['air_time'] = all_results['end_time'] - all_results['start_time']
+table['start_time'] = pd.to_datetime(table['start_time'])
+table['end_time'] = pd.to_datetime(table['end_time'])
+table['air_time'] = table['end_time'] - table['start_time']
 
 #----
 
@@ -70,6 +65,6 @@ select_columns = [
   'service_logo_l_url',
 ]
 
-selected_results = all_results[all_results['service_id']=='r2']
+selected_results = table[table['service_id']=='r2']
 selected_results = selected_results[select_columns]
 selected_results.to_csv(localModule.TABLE_FILE, index=None)
