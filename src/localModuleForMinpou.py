@@ -28,7 +28,7 @@ MARGIN_SECOND = 30
 
 JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
 
-ATOMICPARSLEY = 'usr/bin/AtomicParsley'
+ATOMICPARSLEY = '/usr/bin/AtomicParsley'
 
 #----
 
