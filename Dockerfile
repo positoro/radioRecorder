@@ -30,4 +30,6 @@ ENTRYPOINT service atd start ;\
            service cron start ;\
            (crontab -l; echo "30 1 * * * 'python /root/tabler.py'")    | crontab - ;\
            (crontab -l; echo "45 1 * * * 'python /root/scheduler.py'") | crontab - ;\
+           (crontab -l; echo "30 2 * * * 'python /root/tabler_for_minpou.py'")    | crontab - ;\
+           (crontab -l; echo "45 2 * * * 'python /root/scheduler_for_minpou.py'") | crontab - ;\
            /bin/bash
