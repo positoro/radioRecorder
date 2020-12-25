@@ -67,7 +67,7 @@ today_recording_program = table[
   (table['start_time'] >= record_time_start_line) &
   (table['start_time'] < record_time_end_line)
 ]
-
+today_recording_program = today_recording_program[today_recording_program['service_id'] == 'r2']
 today_recording_program = today_recording_program.reset_index(drop=True)
 
 for row in today_recording_program.itertuples():
