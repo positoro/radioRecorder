@@ -35,10 +35,13 @@ def atting_program(row):
       row.title+'-'+row.start_time.strftime('%Y%m%d%H%M'),
 
   )
+ 
+  at_launch_time = row.start_time - datetime.timedelta(seconds=localModule.MARGIN_SECOND)
 
-  command_line = "echo '{0}' | at -t {1}".format(
+  command_line = "sleep {0}; echo '{1}' | at -t {2}".format(
+    at_launch_time.strftime('%S'),
     ffmpeg_command_line,
-    (row.start_time - datetime.timedelta(seconds=localModule.MARGIN_SECOND)).strftime('%Y%m%d%H%M.%S'),
+    at_launch_time.strftime('%Y%m%d%H%M'),
   )
 
   res = subprocess.check_output(command_line, shell=True)
