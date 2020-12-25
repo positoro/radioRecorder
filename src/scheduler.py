@@ -51,7 +51,6 @@ def atting_program(row):
 table = pd.read_csv(localModule.TABLE_FILE)
 table['start_time'] = pd.to_datetime(table['start_time'])
 table['end_time'] = pd.to_datetime(table['end_time'])
-table['start_time'] = pd.to_datetime(table['start_time'])
 table['air_time'] = pd.to_timedelta(table['air_time'])
 
 update_time_line = datetime.datetime.strptime(localModule.UPDATE_TIME_LINE, '%H:%M:%S')

@@ -34,11 +34,13 @@ def atting_program(row):
     row.image_url,
   )
 
-  command_line = "echo '{0}' | at -t {1}".format(
-    recorder_for_minpou_command_line,
-    (row.start_time - datetime.timedelta(seconds=localModuleForMinpou.MARGIN_SECOND)).strftime('%Y%m%d%H%M.%S'),
-  )
+  at_launch_time = row.start_time - datetime.timedelta(seconds=localModuleForMinpou.MARGIN_SECOND)
 
+  command_line = "sleep {0}; echo '{1}' | at -t {2}".format(
+    at_launch_time.strftime('%S'),
+    recorder_for_minpou_command_line,
+    at_launch_time.strftime('%Y%m%d%H%M'),
+  )
 
 #  res = subprocess.check_output(command_line, shell=True)
   print(command_line)
@@ -48,7 +50,6 @@ def atting_program(row):
 table = pd.read_csv(localModuleForMinpou.TABLE_FILE)
 table['start_time'] = pd.to_datetime(table['start_time'])
 table['end_time'] = pd.to_datetime(table['end_time'])
-table['start_time'] = pd.to_datetime(table['start_time'])
 table['air_time'] = pd.to_timedelta(table['air_time'])
 
 for row in table.itertuples():
