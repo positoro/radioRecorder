@@ -71,7 +71,6 @@ today_recording_program = table[
 ]
 
 today_recording_program = today_recording_program.reset_index(drop=True)
-print(today_recording_program.info())
 
 for row in today_recording_program.itertuples():
   atting_program(row)
