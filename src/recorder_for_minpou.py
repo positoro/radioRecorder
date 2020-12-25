@@ -84,6 +84,7 @@ ffmpeg_command_line = 'ffmpeg \
       auth_token,
       data_file_name,
   )
-
-command_line = "{0}; {1}".format(ffmpeg_command_line, tagging_cover_art(image_url, data_file_name))
+command_line = "{0}".format(ffmpeg_command_line)
 res = subprocess.check_output(command_line, shell=True)
+
+tagging_cover_art(image_url, data_file_name))
