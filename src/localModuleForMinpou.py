@@ -28,6 +28,8 @@ MARGIN_SECOND = 30
 
 JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
 
+ATOMICPARSLEY = 'usr/bin/AtomicParsley'
+
 #----
 
 RADIKO_AUTHKEY_VALUE = 'bcd151073c03b352e1ef2fd66c32209da9ca0afa'

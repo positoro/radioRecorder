@@ -34,7 +34,7 @@ def tagging_cover_art(image_url, file_name):
 
   download_img(image_url, tmp_file)
   
-  command_line = 'atomicparsley {0} --artwork {1}; rm {1}'.format(
+  command_line = localModuleForMinpou.ATOMICPARSLEY + ' {0} --artwork {1}; rm {1}'.format(
     file_name,
     tmp_file,
   )
