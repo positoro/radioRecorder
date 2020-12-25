@@ -19,12 +19,28 @@ start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
 data_file_name  = localModuleForMinpou.FOLDER_OF_RECORD+'/'+title+'-'+start_time.strftime('%Y%m%d%H%M')+'.m4a'
 
 #---------------
+def download_img(url, file_name):
+
+    r = requests.get(url, stream=True)
+
+    if r.status_code == 200:
+        with open(file_name, 'wb') as f:
+            f.write(r.content)
+
+
 def tagging_cover_art(image_url, file_name):
+
+  tmp_folder = localModuleForMinpou.FOLDER_OF_TEMP
+  tmp_file = tmp_folder + file_name + '.tmp'
+
+  download_img(image_url, tmp_file)
   
-  command_line = "fmpeg -i {0} -i {1} -map 0 -map 1 -c copy -disposition:v:1 attached_pic {0}; rm {0}+'.uncoverd'".format(
+  command_line = 'atomicparsley {0} --artwork {1}; rm {1}'.format(
     file_name,
-    cover_artfile_name,
+    tmp_file,
   )
+
+  res = subprocess.check_output(command_line, shell=True)
 
 def get_station_url(station_id, auth_token):
 
@@ -69,5 +85,6 @@ ffmpeg_command_line = 'ffmpeg \
       auth_token,
       data_file_name,
   )
-command_line = "{0}".format(ffmpeg_command_line)
+
+command_line = "{0}; {1}".format(ffmpeg_command_line, tagging_cover_art(image_url, data_file_name))
 res = subprocess.check_output(command_line, shell=True)
