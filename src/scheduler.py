@@ -37,7 +37,7 @@ def atting_program(row):
  
   at_launch_time = row.start_time - datetime.timedelta(seconds=localModule.MARGIN_SECOND)
 
-  command_line = "sleep {0}; echo '{1}' | at -t {2}".format(
+  command_line = "echo 'sleep {0}; {1}' | at -t {2}".format(
     at_launch_time.strftime('%S'),
     ffmpeg_command_line,
     at_launch_time.strftime('%Y%m%d%H%M'),
