@@ -29,7 +29,7 @@ RUN pip install requests
 
 ENTRYPOINT echo $TZ > /etc/timezone ;\
            service cron start ;\
-           service cron start ;\
+           service atd start ;\
            (crontab -l; echo "30 4 * * * python /root/tabler.py")    | crontab - ;\
            (crontab -l; echo "35 4 * * * python /root/scheduler.py") | crontab - ;\
            (crontab -l; echo "45 4 * * * python /root/tabler_for_minpou.py")    | crontab - ;\
