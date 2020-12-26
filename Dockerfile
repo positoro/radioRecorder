@@ -5,6 +5,8 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
 
+RUN echo $TZ > /etc/timezone
+
 RUN apt-get -y update
 RUN apt-get -y upgrade
 
