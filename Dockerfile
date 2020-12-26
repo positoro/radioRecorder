@@ -28,8 +28,9 @@ RUN pip install requests
 
 ENTRYPOINT service atd start ;\
            service cron start ;\
-           (crontab -l; echo "00 3 * * * python /root/tabler.py")    | crontab - ;\
-           (crontab -l; echo "15 3 * * * python /root/scheduler.py") | crontab - ;\
-           (crontab -l; echo "00 4 * * * python /root/tabler_for_minpou.py")    | crontab - ;\
-           (crontab -l; echo "15 4 * * * python /root/scheduler_for_minpou.py") | crontab - ;\
+           (crontab -l; echo "30 4 * * * python /root/tabler.py")    | crontab - ;\
+           (crontab -l; echo "35 4 * * * python /root/scheduler.py") | crontab - ;\
+           (crontab -l; echo "45 4 * * * python /root/tabler_for_minpou.py")    | crontab - ;\
+           (crontab -l; echo "50 4 * * * python /root/program_selector_for_minpou.py") | crontab - ;\
+           (crontab -l; echo "55 4 * * * python /root/scheduler_for_minpou.py") | crontab - ;\
            /bin/bash
