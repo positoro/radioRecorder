@@ -2,8 +2,6 @@ import pandas as pd
 import datetime
 import subprocess
 
-import xml.etree.ElementTree as ET
-
 import localModuleForMinpou
 
 #----

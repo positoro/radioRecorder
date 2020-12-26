@@ -1,11 +1,10 @@
 import pandas as pd
 
 import xml.etree.ElementTree as ET
-
 import requests
 import datetime
-import base64
 import localModuleForMinpou 
+
 #----
 
 date = datetime.date.today()
