@@ -5,7 +5,6 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
 
-RUN echo $TZ > /etc/timezone
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
@@ -28,7 +27,8 @@ RUN pip install --upgrade setuptools
 RUN pip install pandas
 RUN pip install requests
 
-ENTRYPOINT service atd start ;\
+ENTRYPOINT echo $TZ > /etc/timezone ;\
+           service cron start ;\
            service cron start ;\
            (crontab -l; echo "30 4 * * * python /root/tabler.py")    | crontab - ;\
            (crontab -l; echo "35 4 * * * python /root/scheduler.py") | crontab - ;\
