@@ -12,7 +12,7 @@ RUN apt-get -y install locales
 RUN locale-gen
 RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
 
-RUN apt-get install -y man man-db manpages
+RUN apt-get install -y man man-db manpages manpages-ja
 RUN apt-get install -y vim
 RUN apt-get install -y less
 RUN apt-get install -y ffmpeg
