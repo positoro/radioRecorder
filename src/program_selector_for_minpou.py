@@ -1,4 +1,5 @@
 import pandas as pd
+import localModuleForMinpou
 
 table = pd.read_csv(localModuleForMinpou.TABLE_FILE)
 
@@ -20,6 +21,4 @@ selected_results = pd.concat([
   table_MINPOU,
 ])
 
-print(selected_results)
-
-#selected_results.to_csv(localModuleForMinpou.TABLE_FILE, index=None)
+selected_results.to_csv(localModuleForMinpou.TABLE_FILE, index=None)
