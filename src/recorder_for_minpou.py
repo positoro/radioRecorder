@@ -30,16 +30,16 @@ def download_img(url, file_name):
 
 def tagging_cover_art(image_url, file_name):
 
-  tmp_file = file_name + '.tmp'
+#  tmp_file = file_name + '.tmp'
 
-  download_img(image_url, tmp_file)
-  
-  command_line = localModuleForMinpou.ATOMICPARSLEY + ' {0} --artwork {1}; rm {1}'.format(
-    file_name,
-    tmp_file,
-  )
-
-  res = subprocess.check_output(command_line, shell=True)
+#  download_img(image_url, tmp_file)
+ 
+#  command_line = localModuleForMinpou.TAGGER + ' {0} --artwork {1}; rm {1}'.format(
+#    file_name,
+#    tmp_file,
+#  )
+#
+#  res = subprocess.check_output(command_line, shell=True)
 
 def get_station_url(station_id, auth_token):
 
