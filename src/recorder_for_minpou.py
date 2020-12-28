@@ -41,6 +41,8 @@ def tagging_cover_art(image_url, file_name):
 #
 #  res = subprocess.check_output(command_line, shell=True)
 
+  return 0
+
 def get_station_url(station_id, auth_token):
 
   url_for_station_get = 'http://f-radiko.smartstream.ne.jp/{0}/_definst_/simul-stream.stream/playlist.m3u8'.format(station_id)
