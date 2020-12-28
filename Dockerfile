@@ -29,14 +29,15 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN git clone https://github.com/positoro/radioRecorder /root/radioRecorder
 RUN cp /root/radioRecorder/src/*.py /root
 
-ENTRYPOINT service cron start
-ENTRYPOINT service atd start
-ENTRYPOINT (            echo "SHELL=/bin/bash")                                        | crontab -
-ENTRYPOINT (crontab -l; echo "PATH=/usr/local/bin:/bin:/usr/bin")                      | crontab -
-ENTRYPOINT (crontab -l; echo "HOME=/root")                                             | crontab -
-ENTRYPOINT (crontab -l; echo "30 4 * * * python /root/tabler.py")                      | crontab -
-ENTRYPOINT (crontab -l; echo "35 4 * * * python /root/scheduler.py")                   | crontab -
-ENTRYPOINT (crontab -l; echo "45 4 * * * python /root/tabler_for_minpou.py")           | crontab -
-ENTRYPOINT (crontab -l; echo "50 4 * * * python /root/program_selector_for_minpou.py") | crontab -
-ENTRYPOINT (crontab -l; echo "55 4 * * * python /root/scheduler_for_minpou.py")        | crontab -
-ENTRYPOINT /bin/bash
+
+ENTRYPOINT service cron start ;\
+           service atd start ;\
+           (            echo "SHELL=/bin/bash") | crontab - ;\
+           (crontab -l; echo "PATH=/usr/local/bin:/bin:/usr/bin") | crontab - ;\
+           (crontab -l; echo "HOME=/root") | crontab - ;\
+           (crontab -l; echo "30 4 * * * python /root/tabler.py") | crontab - ;\
+           (crontab -l; echo "35 4 * * * python /root/scheduler.py") | crontab - ;\
+           (crontab -l; echo "45 4 * * * python /root/tabler_for_minpou.py") | crontab - ;\
+           (crontab -l; echo "50 4 * * * python /root/program_selector_for_minpou.py") | crontab - ;\
+           (crontab -l; echo "55 4 * * * python /root/scheduler_for_minpou.py") | crontab - ;\
+           /bin/bash
