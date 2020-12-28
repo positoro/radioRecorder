@@ -28,17 +28,14 @@ RUN pip install pandas
 RUN pip install requests
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN git clone https://github.com/positoro/radioRecorder /root/radioRecorder
+RUN cp /root/radioRecorder/src/*.py /root
 
 ENTRYPOINT service cron start ;\
            service atd start ;\
-           cd /root ;\
-           git clone https://github.com/positoro/radioRecorder ;\
            (            echo "SHELL=/bin/bash")    | crontab - ;\
-           (crontab -l; echo "PATH=/usr/local/bin")    | crontab - ;\
+           (crontab -l; echo "PATH=/usr/local/bin:/bin:/usr/bin:")    | crontab - ;\
            (crontab -l; echo "HOME=/root")    | crontab - ;\
-           (crontab -l; echo "LANG=ja_JP.UTF-8")    | crontab - ;\
-           (crontab -l; echo "LC_ALL=ja_JP.UTF-8")    | crontab - ;\
-           (crontab -l; echo "CONTENT_TYPE=text/plain; charset=UTF-8")    | crontab - ;\
            (crontab -l; echo "30 4 * * * python /root/tabler.py")    | crontab - ;\
            (crontab -l; echo "35 4 * * * python /root/scheduler.py") | crontab - ;\
            (crontab -l; echo "45 4 * * * python /root/tabler_for_minpou.py")    | crontab - ;\
