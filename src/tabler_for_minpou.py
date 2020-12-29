@@ -14,7 +14,7 @@ all_results = pd.DataFrame()
 
 def get_table(): 
 
-  request_get = requests.get(localModuleForMinpou.TABLE_URL)
+  request_get = requests.get(localModuleForMinpou.TABLE_URL.format(date.strftime('%Y%m%d')))
   request_get.encoding = 'utf-8'
   getted_xml = ET.fromstring(request_get.text)
 

@@ -32,7 +32,7 @@ RADIKO_AUTHKEY_VALUE = 'bcd151073c03b352e1ef2fd66c32209da9ca0afa'
 RADIKO_AUTH1_FMS_URL = 'https://radiko.jp/v2/api/auth1'
 RADIKO_AUTH2_FMS_URL = 'https://radiko.jp/v2/api/auth2'
 
-TABLE_URL = 'http://radiko.jp/v3/program/today/JP13.xml'
+TABLE_URL = 'http://radiko.jp/v3/program/date/{0}/JP13.xml'
 
 #----
 
