@@ -5,7 +5,6 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
 
-
 RUN apt-get -y update
 RUN apt-get -y upgrade
 
@@ -26,8 +25,15 @@ RUN pip install pandas
 RUN pip install requests
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN git clone https://github.com/positoro/radioRecorder /root/radioRecorder
-RUN cp /root/radioRecorder/src/*.py /root
+
+COPY ./src/localModule.py /root
+COPY ./src/tabler.py /root
+COPY ./src/scheduler.py /root
+COPY ./src/localModuleForMinpou.py /root
+COPY ./src/tabler_for_minpou.py /root
+COPY ./src/program_selector_for_minpou.py /root
+COPY ./src/scheduler_for_minpou.py /root
+COPY ./src/recorder_for_minpou.py /root
 
 
 ENTRYPOINT service cron start ;\
