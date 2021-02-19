@@ -61,7 +61,7 @@ table['title'] = table['title'].apply(lambda x: x.replace("\u25BD", '_'))
 
 table = table[table['title'] != '番組休止中']
 table = table[~table['title'].duplicated()]
-
+table = table[~table['title'].str.contains('放送休止')]
 
 ########################################
 
