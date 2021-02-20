@@ -14,7 +14,7 @@ Docker の環境上で動くようにしています。
 $ git clone https://github.com/positoro/radioRecorder
 $ cd radioRecorder
 $ docker build . -t positoro/radio_recorder:0.1
-$ docker run -h vladivostok -d positoro/radio_recorder:0.1
+$ docker run -h vladivostok -it -d positoro/radio_recorder:0.1
 ```
  
 # Usage
