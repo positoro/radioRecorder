@@ -34,6 +34,7 @@ COPY ./src/tabler_for_minpou.py /root
 COPY ./src/program_selector_for_minpou.py /root
 COPY ./src/scheduler_for_minpou.py /root
 COPY ./src/recorder_for_minpou.py /root
+COPY ./src/area_sender.py /root
 
 
 ENTRYPOINT service cron start ;\
